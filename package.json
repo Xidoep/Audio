@@ -1,0 +1,9 @@
+{
+  "name": "com.xidostudio.audio",
+  "version": "1.0.0-preview.1",
+  "displayName": "XS_Audio",
+  "type": "tool",
+  "dependencies": {
+    "com.xidostudio.utils": "1.0.0"
+  }
+}

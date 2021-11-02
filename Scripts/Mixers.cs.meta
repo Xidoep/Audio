@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 801fe0c99ff42ae4d914d46e030ec83c
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - mixer: {fileID: 24100000, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
+  - master: {fileID: 24300002, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
+  - musica: {fileID: 243625923010047962, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
+  - sons: {fileID: 243729972387478880, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
