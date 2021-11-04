@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using Unity.EditorCoroutines.Editor; //Agafa aixo del Package [Editor Coroutines]
+//using Unity.EditorCoroutines.Editor; //Agafa aixo del Package [Editor Coroutines]
 
 [CustomEditor(typeof(So))]
 public class SoInpector : Editor
