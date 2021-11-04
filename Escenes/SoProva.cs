@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class SoProva : MonoBehaviour
 {
-    public So so;
+    public So so1;
+    public So so2;
+    public So so3;
 
-    AudioSource audioSource;
+    SoControlador audioSource;
 
     public Musica musica1;
     public Musica musica2;
@@ -14,6 +16,11 @@ public class SoProva : MonoBehaviour
     [Range(0,1)]public float musica1Volum;
     [Range(0,1)]public float musica2Volum;
     [Range(0,1)]public float musica3Volum;
+
+    private void OnEnable()
+    {
+        //SonsPoolAutomatic.Iniciar();
+    }
 
     private void OnValidate()
     {
@@ -30,7 +37,7 @@ public class SoProva : MonoBehaviour
     [ContextMenu("Prova1")]
     public void Prova1()
     {
-        audioSource = so.Play_Referencia(transform);
+        audioSource = so1.Play(transform);
     }
 
     [ContextMenu("Apagar2")]
@@ -39,7 +46,7 @@ public class SoProva : MonoBehaviour
         if (audioSource == null)
             return;
 
-        so.Stop(audioSource);
+        audioSource.Apagar();
         audioSource = null;
     }
 
@@ -52,6 +59,13 @@ public class SoProva : MonoBehaviour
     public void Musica2()
     {
         //musica2.Play();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) so1.Play();
+        if (Input.GetKeyDown(KeyCode.Alpha2)) so2.Play();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) so3.Play();
     }
 
 }

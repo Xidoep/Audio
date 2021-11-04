@@ -23,45 +23,24 @@ public class So : ScriptableObject
     AudioClip clip;
     GameObject go;
 
-    public AudioSource Play()
+    public SoControlador Play()
     {
-        PoolInit();
-
         SetSo(null, false);
-
-        return actual.audioSource;
+        return actual;
     }
 
-    public void Play(Transform transform) => Play_Referencia(transform);
-    public void PlayEmparentat(Transform transform) => PlayEmparentat_Referencia(transform);
-
-    public AudioSource Play_Referencia(Transform transform)
+    public SoControlador Play(Transform transform, bool emparentat = false) 
     {
-        PoolInit();
-        SetSo(transform,false);
-
-        return actual.audioSource;
-    }
-    public AudioSource PlayEmparentat_Referencia(Transform transform)
-    {
-        PoolInit();
-        SetSo(transform,true);
-
-        return actual.audioSource;
+        SetSo(transform, emparentat);
+        return actual;
     }
 
-    void PoolInit()
-    {
-        if (SonsPool.Instance != null)
-            return;
-
-        Instantiate(pool);
-    }
     void SetSo(Transform transform, bool parent)
     {
         clip = clips.Length > 0 ? clips[Random.Range(0, clips.Length)] : defecte;
-        go = SonsPool.Get(clip != null ? clip.length : 0);
-        actual = go.GetComponent<SoControlador>();
+        //go = SonsPool.Get(clip != null ? clip.length : 0);
+        //actual = go.GetComponent<SoControlador>();
+        actual = SonsPoolAutomatic.Get(loop);
         //actual = _tmp.GetComponent<AudioSource>();
 
         actual.audioSource.clip = clip;

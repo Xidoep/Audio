@@ -1,62 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using XS_Utils;
 
-public class SonsPool : MonoBehaviour
+
+public static class SonsPoolAutomatic
 {
-    public static SonsPool Instance;
+    static bool iniciat = false;
+    static ObjectPool<SoControlador> poolAuto;
+    public static ObjectPool<SoControlador> Pool => poolAuto;
 
-    [SerializeField] Mixers mixers;
-    [HideInInspector] public GameObject prefab;
-    public Queue<GameObject> pool = new Queue<GameObject>();
 
-    static GameObject _tmp;
+    static GameObject tmp;
+    static SoControlador so;
 
-    private void Awake()
+
+    public static SoControlador Get(bool loop)
     {
-        Instance = this;
-        if (!mixers.MixerActualitzat) mixers.Actualitzar();
-        Instanciar();
+        if (!iniciat)
+            Iniciar();
+        return Pool.Get().Iniciar(Release, loop);
     }
 
-    [ContextMenu("Instanciar")]
-    void Instanciar()
+
+    static void Iniciar()
     {
-        pool = new Queue<GameObject>();
-        for (int p = 0; p < 2; p++)
-        {
-            Debug.Log($"Instanciar {p}");
-            pool.Enqueue(AfegirObjecte(prefab));
-        }
+        poolAuto = new ObjectPool<SoControlador>(Crear, OnPoolGet, OnPoolRelease);
+        iniciat = true;
     }
 
-    GameObject AfegirObjecte(GameObject _prefab)
+    static SoControlador Crear()
     {
-        GameObject _tmp = Instantiate(_prefab, this.transform);
-        _tmp.SetActive(false);
-
-        return _tmp;
+        tmp = new GameObject("so");
+        so = tmp.AddComponent<SoControlador>();
+        so.audioSource = tmp.AddComponent<AudioSource>();
+        //Debug.Log("Crear");
+        return so;
+    }
+    static void OnPoolGet(SoControlador so)
+    {
+        so.gameObject.SetActive(true);
+        //Debug.Log("Get");
+    }
+    static void OnPoolRelease(SoControlador so)
+    {
+        so.gameObject.SetActive(false);
+        //Debug.Log("Release");
     }
 
-    public static GameObject Get(float temps = 0)
-    {
-        _tmp = null;
 
-        if (SonsPool.Instance.pool.Peek().activeSelf)
-        {
-            _tmp = SonsPool.Instance.AfegirObjecte(SonsPool.Instance.prefab);
-        }
-        else
-        {
-            _tmp = SonsPool.Instance.pool.Dequeue();
-        }
-        _tmp.SetActive(true);
-        SonsPool.Instance.pool.Enqueue(_tmp);
-        if(temps > 0)
-        {
-            _tmp.SetActive(false, temps);
-        }
-        return _tmp;
+    static void Release(SoControlador soControlador)
+    {
+        Pool.Release(soControlador);
     }
 }

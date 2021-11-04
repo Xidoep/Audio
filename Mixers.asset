@@ -17,8 +17,8 @@ MonoBehaviour:
   master: {fileID: 24300002, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   musica: {fileID: 243625923010047962, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   sons: {fileID: 243729972387478880, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
-  volumMaster: 0.989
-  volumMusica: 0.27916136
+  volumMaster: 1.04
+  volumMusica: 0.134
   volumSons: 0.96617216
   reverberacio: 0
   eco: 0

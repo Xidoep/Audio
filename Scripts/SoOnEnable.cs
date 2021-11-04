@@ -5,11 +5,11 @@ using UnityEngine;
 public class SoOnEnable : MonoBehaviour
 {
     [SerializeField] So so;
-    AudioSource audioSource;
+    SoControlador audioSource;
 
     private void OnEnable()
     {
-        audioSource = so.Play_Referencia(transform);
+        audioSource = so.Play(transform);
     }
 
     private void OnDisable()
@@ -17,6 +17,6 @@ public class SoOnEnable : MonoBehaviour
         if (!audioSource)
             return;
 
-        so.Stop(audioSource);
+        audioSource.Apagar();
     }
 }
