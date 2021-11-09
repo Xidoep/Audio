@@ -5,7 +5,7 @@ public class SoControlador : MonoBehaviour
 {
     public AudioSource audioSource;
 
-    CompteEnrere compteEnrere;
+    Countdown compteEnrere;
 
     System.Action<SoControlador> enRelease;
     public SoControlador Iniciar(System.Action<SoControlador> enRelease, bool loop)
@@ -13,8 +13,8 @@ public class SoControlador : MonoBehaviour
         this.enRelease = enRelease;
         //if(temps > 0)
         //{
-        if (compteEnrere == null) compteEnrere = new CompteEnrere(3, () => enRelease.Invoke(this));
-        if (!loop) compteEnrere.Iniciar();
+        if (compteEnrere == null) compteEnrere = new Countdown(3, () => enRelease.Invoke(this));
+        if (!loop) compteEnrere.Start();
 
         //}
 
@@ -23,7 +23,7 @@ public class SoControlador : MonoBehaviour
 
     private void Update()
     {
-        compteEnrere.Actualitzar();
+        compteEnrere.Update();
     }
     public void Apagar()
     {
