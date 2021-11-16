@@ -3,17 +3,25 @@ using XS_Utils;
 
 public class SoControlador : MonoBehaviour
 {
-    public AudioSource audioSource;
-
+    AudioSource audioSource;
+    public AudioSource AudioSource => audioSource;
     Countdown compteEnrere;
 
     System.Action<SoControlador> enRelease;
+    public SoControlador Crear(AudioSource audioSource)
+    {
+        Debug.Log("Crear");
+        this.audioSource = audioSource;
+        compteEnrere = new Countdown(3, () => enRelease.Invoke(this));
+        return this;
+    }
     public SoControlador Iniciar(System.Action<SoControlador> enRelease, bool loop)
     {
+        Debug.Log("Iniciar");
         this.enRelease = enRelease;
         //if(temps > 0)
         //{
-        if (compteEnrere == null) compteEnrere = new Countdown(3, () => enRelease.Invoke(this));
+        if (compteEnrere == null) compteEnrere.Start();
         if (!loop) compteEnrere.Start();
 
         //}
@@ -21,12 +29,13 @@ public class SoControlador : MonoBehaviour
         return this;
     }
 
-    private void Update()
+    void Update()
     {
         compteEnrere.Update();
     }
     public void Apagar()
     {
+        Debug.Log("Apagar");
         audioSource.Stop();
         enRelease.Invoke(this);
     }

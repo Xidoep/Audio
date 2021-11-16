@@ -9,8 +9,6 @@ public static class SonsPoolAutomatic
 {
     static bool iniciat = false;
     static ObjectPool<SoControlador> poolAuto;
-    public static ObjectPool<SoControlador> Pool => poolAuto;
-
 
     static GameObject tmp;
     static SoControlador so;
@@ -20,7 +18,7 @@ public static class SonsPoolAutomatic
     {
         if (!iniciat)
             Iniciar();
-        return Pool.Get().Iniciar(Release, loop);
+        return poolAuto.Get().Iniciar(Release, loop);
     }
 
 
@@ -33,9 +31,7 @@ public static class SonsPoolAutomatic
     static SoControlador Crear()
     {
         tmp = new GameObject("so");
-        so = tmp.AddComponent<SoControlador>();
-        so.audioSource = tmp.AddComponent<AudioSource>();
-        //Debug.Log("Crear");
+        so = tmp.AddComponent<SoControlador>().Crear(tmp.AddComponent<AudioSource>());
         return so;
     }
     static void OnPoolGet(SoControlador so)
@@ -52,6 +48,7 @@ public static class SonsPoolAutomatic
 
     static void Release(SoControlador soControlador)
     {
-        Pool.Release(soControlador);
+        Debug.Log("Release");
+        poolAuto.Release(soControlador);
     }
 }

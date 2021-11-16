@@ -13,9 +13,19 @@ public class SoInpector : Editor
     So so;
 
     AudioSource audioSource;
+    AudioClip _nouClip = null;
+    bool _loop;
+    float _volumMin;
+    float _volumMax;
+    float _pitchMin;
+    float _pitchMax;
+    float _maxDist;
+    bool spatialBlend;
 
     public override void OnInspectorGUI()
     {
+        base.DrawDefaultInspector();
+
         if(so == null)
         {
             so = (So)target;
@@ -24,6 +34,7 @@ public class SoInpector : Editor
         if (label70 == null) label70 = new GUIStyle(GUI.skin.label) { fixedWidth = 40, alignment = TextAnchor.MiddleLeft };
         if (field == null) field = new GUIStyle(GUI.skin.textField) { fixedWidth = 40};
 
+        /*
         for (int i = 0; i < so.clips.Length; i++)
         {
             EditorGUILayout.BeginHorizontal();
@@ -48,20 +59,20 @@ public class SoInpector : Editor
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Box("+", label70);
-        AudioClip _nouClip = null;
         _nouClip = (AudioClip)EditorGUILayout.ObjectField(_nouClip, typeof(AudioClip), false);
         if(_nouClip != null)
         {
             List<AudioClip> _tmp = new List<AudioClip>(so.clips);
             _tmp.Add(_nouClip);
             so.clips = _tmp.ToArray();
+            _nouClip = null;
         }
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+        */
 
-
-        bool _loop = EditorGUILayout.Toggle("Loop", so.loop);
+        _loop = EditorGUILayout.Toggle("Loop", so.loop);
         if(so.loop != _loop)
         {
             Undo.RecordObject(so, "Guardar SonsPool desde SonsPoolInspector");
@@ -71,8 +82,8 @@ public class SoInpector : Editor
 
 
         EditorGUILayout.BeginHorizontal();
-        float _volumMin = so.volum.x;
-        float _volumMax = so.volum.y;
+        _volumMin = so.volum.x;
+        _volumMax = so.volum.y;
         GUILayout.Box("Volum", label70);
         EditorGUILayout.MinMaxSlider(ref _volumMin, ref _volumMax, 0, 1);
         if(so.volum.x != _volumMin || so.volum.y != _volumMax)
@@ -90,8 +101,8 @@ public class SoInpector : Editor
         EditorGUILayout.Space(20);
 
         EditorGUILayout.BeginHorizontal();
-        float _pitchMin = so.pitch.x;
-        float _pitchMax = so.pitch.y;
+        _pitchMin = so.pitch.x;
+        _pitchMax = so.pitch.y;
         GUILayout.Box("Pitch", label70);
         EditorGUILayout.MinMaxSlider("", ref _pitchMin, ref _pitchMax, 0, 2);
         if (so.pitch.x != _pitchMin || so.pitch.y != _pitchMax)
@@ -109,6 +120,13 @@ public class SoInpector : Editor
         EditorGUILayout.Space(20);
 
 
+        spatialBlend = EditorGUILayout.Toggle("Spatial", so.spatialBlend);
+        if(so.spatialBlend != spatialBlend)
+        {
+            Undo.RecordObject(so, "Guardar SonsPool desde SonsPoolInspector");
+            so.spatialBlend = spatialBlend;
+        }
+        
 
         float _maxDist = EditorGUILayout.FloatField("Distancia maxima", so.distanciaMaxima);
         if (so.distanciaMaxima != _maxDist)

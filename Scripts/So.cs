@@ -14,9 +14,10 @@ public class So : ScriptableObject
     [HideInInspector] public bool loop;
     [HideInInspector] public Vector2 volum = new Vector2(1,1);
     [HideInInspector] public Vector2 pitch = new Vector2(1,1);
+    [HideInInspector] public bool spatialBlend = true;
     [HideInInspector] public float distanciaMaxima = 100;
 
-    [HideInInspector] public AudioClip[] clips = new AudioClip[] { };
+    public AudioClip[] clips = new AudioClip[] { };
 
     SoControlador actual;
 
@@ -43,14 +44,14 @@ public class So : ScriptableObject
         actual = SonsPoolAutomatic.Get(loop);
         //actual = _tmp.GetComponent<AudioSource>();
 
-        actual.audioSource.clip = clip;
-        actual.audioSource.loop = loop;
-        actual.audioSource.volume = Random.Range(volum.x, volum.y);
-        actual.audioSource.pitch = Random.Range(pitch.x, pitch.y);
-        if (actual.audioSource.outputAudioMixerGroup == null) actual.audioSource.outputAudioMixerGroup = Mixers.Instance.sons;
-        actual.audioSource.spatialBlend = Application.isPlaying ? 1 : 0;
-        actual.audioSource.maxDistance = distanciaMaxima;
-        actual.audioSource.Play();
+        actual.AudioSource.clip = clip;
+        actual.AudioSource.loop = loop;
+        actual.AudioSource.volume = Random.Range(volum.x, volum.y);
+        actual.AudioSource.pitch = Random.Range(pitch.x, pitch.y);
+        if (actual.AudioSource.outputAudioMixerGroup == null) actual.AudioSource.outputAudioMixerGroup = Mixers.Instance.sons;
+        actual.AudioSource.spatialBlend = Application.isPlaying ? (spatialBlend ? 1 : 0) : 0;
+        actual.AudioSource.maxDistance = distanciaMaxima;
+        actual.AudioSource.Play();
         if(transform != null) actual.gameObject.transform.position = transform.position;
         actual.gameObject.transform.SetParent(parent ? transform : null);
     }
@@ -64,7 +65,7 @@ public class So : ScriptableObject
 
     public void Stop()
     {
-        actual.audioSource.Stop();
+        actual.AudioSource.Stop();
         actual.gameObject.SetActive(false);
     }
 
