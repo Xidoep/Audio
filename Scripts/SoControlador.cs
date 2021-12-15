@@ -12,9 +12,10 @@ public class SoControlador : MonoBehaviour
     {
         Debug.Log("Crear");
         this.audioSource = audioSource;
-        compteEnrere = new Countdown(3, () => enRelease.Invoke(this));
+        compteEnrere = new Countdown(3, Release);
         return this;
     }
+    void Release() => enRelease.Invoke(this);
     public SoControlador Iniciar(System.Action<SoControlador> enRelease, bool loop)
     {
         Debug.Log("Iniciar");
