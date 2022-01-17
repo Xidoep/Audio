@@ -11,9 +11,10 @@ public class So : ScriptableObject
     [HideInInspector] public GameObject prefab;
     [HideInInspector] public GameObject pool;
 
-    [HideInInspector] public bool loop;
     [HideInInspector] public Vector2 volum = new Vector2(1,1);
     [HideInInspector] public Vector2 pitch = new Vector2(1,1);
+
+    [HideInInspector] public bool loop;
     [HideInInspector] public bool spatialBlend = true;
     [HideInInspector] public float distanciaMaxima = 100;
 
@@ -24,37 +25,76 @@ public class So : ScriptableObject
     AudioClip clip;
     GameObject go;
 
-    public SoControlador Play()
+    public SoControlador Play() => Play(Set(Get(), Vector3.zero, null));
+    public SoControlador Play(Transform transform) 
     {
-        SetSo(null, false);
+        Get();
+        SetBasics(actual, transform.position, transform);
+        Play(actual);
+        return actual;
+    }
+    public SoControlador Play(Vector3 position)
+    {
+        Get();
+        SetBasics(actual, position, null);
+        Play(actual);
+        return actual;
+    }
+    public SoControlador Play(Vector3 position, Transform parent)
+    {
+        Get();
+        SetBasics(actual, position, parent);
+        Play(actual);
         return actual;
     }
 
-    public SoControlador Play(Transform transform, bool emparentat = false) 
+    SoControlador Get() => actual = SonsPoolAutomatic.Get(loop);
+    void SetBasics(SoControlador so, Vector3 position, Transform parent)
     {
-        SetSo(transform, emparentat);
-        return actual;
+        so.Clip = clip = clips.Length > 0 ? clips[Random.Range(0, clips.Length)] : defecte;
+        so.Volume = Random.Range(volum.x, volum.y);
+        so.Pitch = Random.Range(pitch.x, pitch.y);
+
+        so.gameObject.transform.position = position;
+        so.gameObject.transform.SetParent(parent);
+    }
+    SoControlador Set(SoControlador so, Vector3 position, Transform parent)
+    {
+        SetBasics(so, position, parent);
+        return so;
+    }
+    SoControlador SetWithVolume(SoControlador so, float volume, Vector3 position, Transform parent)
+    {
+        SetBasics(so, position, parent);
+        so.Volume = volume;
+        return so;
+
+    }
+    SoControlador SetWithPitch(SoControlador so, float pitch, Vector3 position, Transform parent)
+    {
+        SetBasics(so, position, parent);
+        so.Pitch = pitch;
+        return so;
+
+    }
+    SoControlador SetAll(SoControlador so, float volume, float pitch, Vector3 position, Transform parent)
+    {
+        SetBasics(so, position, parent);
+        so.Volume = volume;
+        so.Pitch = pitch;
+        return so;
+
     }
 
-    void SetSo(Transform transform, bool parent)
+    public SoControlador Play(SoControlador so) 
     {
-        clip = clips.Length > 0 ? clips[Random.Range(0, clips.Length)] : defecte;
-        //go = SonsPool.Get(clip != null ? clip.length : 0);
-        //actual = go.GetComponent<SoControlador>();
-        actual = SonsPoolAutomatic.Get(loop);
-        //actual = _tmp.GetComponent<AudioSource>();
-
-        actual.AudioSource.clip = clip;
-        actual.AudioSource.loop = loop;
-        actual.AudioSource.volume = Random.Range(volum.x, volum.y);
-        actual.AudioSource.pitch = Random.Range(pitch.x, pitch.y);
-        if (actual.AudioSource.outputAudioMixerGroup == null) actual.AudioSource.outputAudioMixerGroup = Mixers.Instance.sons;
-        actual.AudioSource.spatialBlend = Application.isPlaying ? (spatialBlend ? 1 : 0) : 0;
-        actual.AudioSource.maxDistance = distanciaMaxima;
-        actual.AudioSource.Play();
-        if(transform != null) actual.gameObject.transform.position = transform.position;
-        actual.gameObject.transform.SetParent(parent ? transform : null);
-    }
+        so.Loop = loop;
+        so.AudioMixed();
+        so.SpatialBlend = spatialBlend;
+        so.MaxDistance = distanciaMaxima;
+        so.Play();
+        return so;
+    } 
 
 
     public void Stop(AudioSource audioSource)
@@ -65,7 +105,7 @@ public class So : ScriptableObject
 
     public void Stop()
     {
-        actual.AudioSource.Stop();
+        actual.Stop();
         actual.gameObject.SetActive(false);
     }
 

@@ -4,7 +4,7 @@ using XS_Utils;
 public class SoControlador : MonoBehaviour
 {
     AudioSource audioSource;
-    public AudioSource AudioSource => audioSource;
+    //public AudioSource AudioSource => audioSource;
     Countdown compteEnrere;
 
     System.Action<SoControlador> enRelease;
@@ -40,4 +40,18 @@ public class SoControlador : MonoBehaviour
         audioSource.Stop();
         enRelease.Invoke(this);
     }
-}
+
+    public void Play() => audioSource.Play();
+    public void Stop() => audioSource.Stop();
+    public AudioClip Clip {set => audioSource.clip = value; }
+    public float Volume {set => audioSource.volume = value; }
+    public float Pitch {set => audioSource.pitch = value; }
+    public bool Loop { set => audioSource.loop = value; }
+    public void AudioMixed()
+    {
+        if (audioSource.outputAudioMixerGroup == null) audioSource.outputAudioMixerGroup = Mixers.Instance.sons;
+    }
+    public bool SpatialBlend { set => audioSource.spatialBlend = Application.isPlaying ? (value ? 1 : 0) : 0; }
+    public float MaxDistance { set => audioSource.maxDistance = value; }
+
+} 
