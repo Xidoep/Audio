@@ -48,7 +48,7 @@ public static class SonsPoolAutomatic
 
     static void Release(SoControlador soControlador)
     {
-        Debug.Log("Release");
+        Debugar.Log("Release");
         poolAuto.Release(soControlador);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using XS_Utils;
 
 public class SoProva : MonoBehaviour
 {
@@ -63,9 +65,10 @@ public class SoProva : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) so1.Play();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) so2.Play();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) so3.Play();
+        if (Key.Digit1.OnPress()) so1.Play(); 
+        if (Key.Digit2.OnPress()) so2.Play(); 
+        if (Key.Digit3.OnPress()) so3.Play();
+
     }
 
 }

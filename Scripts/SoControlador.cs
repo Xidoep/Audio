@@ -18,7 +18,7 @@ public class SoControlador : MonoBehaviour
     void Release() => enRelease.Invoke(this);
     public SoControlador Iniciar(System.Action<SoControlador> enRelease, bool loop)
     {
-        Debug.Log("Iniciar");
+        Debugar.Log("Iniciar");
         this.enRelease = enRelease;
         //if(temps > 0)
         //{
