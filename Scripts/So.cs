@@ -16,7 +16,7 @@ public class So : ScriptableObject
 
     [HideInInspector] public bool loop;
     [HideInInspector] public bool spatialBlend = true;
-    [HideInInspector] public float distanciaMaxima = 100;
+    [HideInInspector] public float distanciaMaxima = 500;
 
     public AudioClip[] clips = new AudioClip[] { };
 
