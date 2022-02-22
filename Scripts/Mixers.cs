@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using XS_Utils;
 
+[DefaultExecutionOrder(2)]
 [CreateAssetMenu(menuName = "Xido Studio/Audio/Mixers", fileName = "Mixers")]
 public class Mixers : ScriptableObject {
 
@@ -36,7 +38,6 @@ public class Mixers : ScriptableObject {
 
     private void OnEnable()
     {
-        Debug.Log("Enable");
         Instance = this;
         Actualitzar();
     }
@@ -122,7 +123,7 @@ public class Mixers : ScriptableObject {
 
     public void Actualitzar()
     {
-        XS_Utils.Debugar.Log("Actualitzar");
+        Debugar.Log("Actualitzar Mixers");
         if (Mixers.Instance.GetFloat(Mixers.Instance.master, KEY_MASTER) != Mixers.Instance.volumMaster)
         {
             //new Debug().Log($"Actualitzar Master");
