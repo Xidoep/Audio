@@ -4,42 +4,58 @@ using UnityEngine;
 using UnityEngine.Audio;
 using XS_Utils;
 
-[DefaultExecutionOrder(2)]
 [CreateAssetMenu(menuName = "Xido Studio/Audio/Mixers", fileName = "Mixers")]
-public class Mixers : ScriptableObject {
+public class Mixers : ScriptableObject 
+{
+    public readonly string KEY_MASTER = "VolumMaster";
+    public readonly string KEY_MUSICA = "VolumMusica";
+    public readonly string KEY_SO = "VolumSons";
+    public readonly string KEY_REVERB = "Reverberacio";
+    public readonly string KEY_ECO = "Eco";
+    public readonly string KEY_LOWPASSGENERAL = "LowPassGeneral";
+    public readonly string KEY_LOWPASSMUSICA = "LowPassMusica";
 
     public static Mixers Instance;
 
-    const string KEY_GUARDAT = "Audio_";
-    const string KEY_MASTER = "VolumMaster";
-    const string KEY_MUSICA = "VolumMusica";
-    const string KEY_SO = "VolumSons";
-    const string KEY_REVERB = "Reverberacio";
-    const string KEY_ECO = "Eco";
-    const string KEY_LOWPASSGENERAL = "LowPassGeneral";
-    const string KEY_LOWPASSMUSICA = "LowPassMusica";
+    [SerializeField] Guardat guardat;
 
-    [Informacio] [SerializeField] string Inportant = "S'ha d'Actualitzar, al inici perque aquest script afecti al Mixer.";
-    public AudioMixer mixer;
-    public AudioMixerGroup master;
-    public AudioMixerGroup musica;
-    public AudioMixerGroup sons;
+    [SerializeField] AudioMixer mixer;
+    [SerializeField] AudioMixerGroup master;
+    [SerializeField] AudioMixerGroup musica;
+    [SerializeField] AudioMixerGroup sons;
 
-    [Range(0, 1.25f)] public float volumMaster = 1;
-    [Range(0, 1.25f)] public float volumMusica = 1;
-    [Range(0, 1.25f)] public float volumSons = 1;
+    [Range(0, 1.25f)] [SerializeField] float volumMaster = 1;
+    [Range(0, 1.25f)] [SerializeField] float volumMusica = 1;
+    [Range(0, 1.25f)] [SerializeField] float volumSons = 1;
 
-    [Range(0, 1)] public float reverberacio = 0;
-    [Range(0, 1)] public float eco = 0;
-    [Range(0, 1)] public float lowpassGeneral = 0;
-    [Range(0, 1)] public float lowpassMusica = 0;
+    [Range(0, 1)] [SerializeField] float reverberacio = 0;
+    [Range(0, 1)] [SerializeField] float eco = 0;
+    [Range(0, 1)] [SerializeField] float lowpassGeneral = 0;
+    [Range(0, 1)] [SerializeField] float lowpassMusica = 0;
 
-    public bool MixerActualitzat => Mixers.Instance.GetFloat(Mixers.Instance.master, KEY_MASTER) == Mixers.Instance.volumMaster;
+    public AudioMixerGroup Sons => sons;
+
+    //public bool MixerActualitzat => Mixers.Instance.GetFloat(Mixers.Instance.master, KEY_MASTER) == Mixers.Instance.volumMaster;
 
     private void OnEnable()
     {
+        Debug.Log("Mixers - OnEnable");
         Instance = this;
+        Carregar();
         Actualitzar();
+        guardat.onLoad += Carregar;
+    }
+
+    private void OnDisable()
+    {
+        guardat.onLoad -= Carregar;
+    }
+
+    public void Carregar()
+    {
+        volumMaster = (float)guardat.Get(KEY_MASTER, 1f);
+        volumMusica = (float)guardat.Get(KEY_MUSICA, 1f);
+        volumSons = (float)guardat.Get(KEY_SO, 1f);
     }
 
     //SETTERS
@@ -47,16 +63,19 @@ public class Mixers : ScriptableObject {
     {
         volumMaster = _volum;
         SetFloat(master, KEY_MASTER, -((volumMaster - 1) * -80));
+        guardat.SetLocal(KEY_MASTER, volumMaster);
     }
     public void SetMusica(float _volum)
     {
         volumMusica = _volum;
         SetFloat(musica, KEY_MUSICA, -((volumMusica - 1) * -80));
+        guardat.SetLocal(KEY_MUSICA, volumMusica);
     }
     public void SetSo(float _volum)
     {
         volumSons = _volum;
         SetFloat(sons, KEY_SO, -((volumSons - 1) * -80));
+        guardat.SetLocal(KEY_SO, volumSons);
     }
 
     public void SetReverberacio(float _valor)
@@ -82,15 +101,12 @@ public class Mixers : ScriptableObject {
         SetFloat(musica, KEY_LOWPASSMUSICA, 21990 - (21990 * _valor) + 10);
     }
 
-    void SetFloat(AudioMixerGroup _mixer, string _key, float _valor)
-    {
-        _mixer.audioMixer.SetFloat(_key, _valor);
-    }
+    void SetFloat(AudioMixerGroup _mixer, string _key, float _valor) => _mixer.audioMixer.SetFloat(_key, _valor);
 
 
 
-   //GETTERS
-   //float
+    //GETTERS
+    //float
     float GetReverberacio()
     {
         master.audioMixer.GetFloat(KEY_REVERB, out float _tmp);
@@ -124,43 +140,13 @@ public class Mixers : ScriptableObject {
     public void Actualitzar()
     {
         Debugar.Log("Actualitzar Mixers");
-        if (Mixers.Instance.GetFloat(Mixers.Instance.master, KEY_MASTER) != Mixers.Instance.volumMaster)
-        {
-            //new Debug().Log($"Actualitzar Master");
-        }
-        if (Mixers.Instance.GetFloat(Mixers.Instance.musica, KEY_MUSICA) != Mixers.Instance.volumMusica)
-        {
-            //new Debug().Log($"Actualitzar Musica");
-          
-        }
-        if (Mixers.Instance.GetFloat(Mixers.Instance.sons, KEY_SO) != Mixers.Instance.volumSons)
-        {
-            //new Debug().Log($"Actualitzar Sons");
-        }
-            Mixers.Instance.SetMaster(Mixers.Instance.volumMaster);
-            Mixers.Instance.SetMusica(Mixers.Instance.volumMusica);
-            Mixers.Instance.SetSo(Mixers.Instance.volumSons);
+        SetMaster(volumMaster);
+        SetMusica(volumMusica);
+        SetSo(volumSons);
 
-
-        if (Mixers.Instance.GetReverberacio() != Mixers.Instance.reverberacio)
-        {
-            //new Debug().Log($"Actualitzar Reververacio");
-            Mixers.Instance.SetReverberacio(Mixers.Instance.reverberacio);
-        }
-        if (Mixers.Instance.GetEco() != Mixers.Instance.eco)
-        {
-            //new Debug().Log($"Actualitzar Eco: {Mixers.Instance.GetEco()} - {Mixers.Instance.eco}");
-            Mixers.Instance.SetEco(Mixers.Instance.eco);
-        }
-        if (Mixers.Instance.GetLowPass(Mixers.Instance.master, KEY_LOWPASSGENERAL) != Mixers.Instance.lowpassGeneral)
-        {
-            //new Debug().Log($"Actualitzar LowpassGeneral");
-            Mixers.Instance.SetLowPassGeneral(Mixers.Instance.lowpassGeneral);
-        }
-        if (Mixers.Instance.GetLowPass(Mixers.Instance.musica, KEY_LOWPASSMUSICA) != Mixers.Instance.lowpassMusica)
-        {
-            //new Debug().Log($"Actualitzar LowpassMusica");
-            Mixers.Instance.SetLowPassMusica(Mixers.Instance.lowpassMusica);
-        }
+        if (GetReverberacio() != reverberacio) SetReverberacio(reverberacio);
+        if (GetEco() != eco) SetEco(eco);
+        if (GetLowPass(master, KEY_LOWPASSGENERAL) != lowpassGeneral) SetLowPassGeneral(lowpassGeneral);
+        if (GetLowPass(musica, KEY_LOWPASSMUSICA) != lowpassMusica) SetLowPassMusica(lowpassMusica);
     }
 }

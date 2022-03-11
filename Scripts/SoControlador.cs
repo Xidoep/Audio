@@ -18,7 +18,6 @@ public class SoControlador : MonoBehaviour
     void Release() => enRelease.Invoke(this);
     public SoControlador Iniciar(System.Action<SoControlador> enRelease, bool loop)
     {
-        Debugar.Log("Iniciar");
         this.enRelease = enRelease;
         //if(temps > 0)
         //{
@@ -49,7 +48,7 @@ public class SoControlador : MonoBehaviour
     public bool Loop { set => audioSource.loop = value; }
     public void AudioMixed()
     {
-        if (audioSource.outputAudioMixerGroup == null) audioSource.outputAudioMixerGroup = Mixers.Instance.sons;
+        if (audioSource.outputAudioMixerGroup == null) audioSource.outputAudioMixerGroup = Mixers.Instance.Sons;
     }
     public bool SpatialBlend { set => audioSource.spatialBlend = Application.isPlaying ? (value ? 1 : 0) : 0; }
     public float MaxDistance { set => audioSource.maxDistance = value; }

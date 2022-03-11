@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using XS_Utils;
 //using Unity.EditorCoroutines.Editor; //Agafa aixo del Package [Editor Coroutines]
 
 [CustomEditor(typeof(So))]
@@ -21,6 +22,8 @@ public class SoInpector : Editor
     float _pitchMax;
     float _maxDist;
     bool spatialBlend;
+
+    float testingDistance;
 
     public override void OnInspectorGUI()
     {
@@ -136,19 +139,41 @@ public class SoInpector : Editor
         }
         EditorGUILayout.Space(20);
 
+        testingDistance = EditorGUILayout.Slider("Testing distance",testingDistance, 0, 100);
 
         if (GUILayout.Button("Play"))
         {
-            //GameObject _tmp = new GameObject();
-            so.Play();
-            //DestroyImmediate(_tmp);
-            //EditorCoroutineUtility.StartCoroutine(ApagarSoProva(_ass), so);
+            if (audioSource == null) audioSource = new GameObject("_preview").AddComponent<AudioSource>();
+            int side = Random.Range(0, 2);
+            audioSource.transform.position = Camera.main.transform.position + ( side == 1 ? Vector3.right : -Vector3.right) * testingDistance ;
+            audioSource.clip = so.clips[Random.Range(0, so.clips.Length)];
+            audioSource.loop = so.loop;
+            audioSource.volume = Random.Range(so.volum.x, so.volum.y);
+            audioSource.pitch = Random.Range(so.pitch.x, so.pitch.y);
+            audioSource.spatialBlend = so.spatialBlend ? 1 : 0;
+            audioSource.maxDistance = so.distanciaMaxima;
+            audioSource.Play();
+            Debugar.Log($"Play ({audioSource.clip.name})");
         }
         if (GUILayout.Button("Stop"))
         {
-            so.Stop();
-            //EditorCoroutineUtility.StartCoroutine(ApagarSoProva(_ass), so);
+            if (audioSource == null) 
+                return;
+
+            if (!audioSource.isPlaying)
+                return;
+
+            audioSource.Stop();
         }
+
+    }
+
+    void OnDisable()
+    {
+        if (audioSource == null)
+            return;
+
+        DestroyImmediate(audioSource.gameObject);
     }
 
     IEnumerator ApagarSoProva(AudioSource _tmp)
