@@ -5,14 +5,14 @@ public class SoControlador : MonoBehaviour
 {
     AudioSource audioSource;
     //public AudioSource AudioSource => audioSource;
-    Countdown compteEnrere;
+    XS_Countdown compteEnrere;
 
     System.Action<SoControlador> enRelease;
     public SoControlador Crear(AudioSource audioSource)
     {
         Debug.Log("Crear");
         this.audioSource = audioSource;
-        compteEnrere = new Countdown(3, Release);
+        compteEnrere = new XS_Countdown(3, Release);
         return this;
     }
     void Release() => enRelease.Invoke(this);
