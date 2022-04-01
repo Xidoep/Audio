@@ -11,30 +11,14 @@ public class SoProva : MonoBehaviour
     public So so3;
 
     SoControlador audioSource;
+    [SerializeField] MusicControlador musica;
 
-    public Musica musica1;
-    public Musica musica2;
-    public Musica musica3;
-    [Range(0,1)]public float musica1Volum;
-    [Range(0,1)]public float musica2Volum;
-    [Range(0,1)]public float musica3Volum;
+    public Music musica1;
+    [Range(0,1)]public float volume1;
+    [Space(20)]
+    public Music musica2;
+    [Range(0, 1)] public float volume2;
 
-    private void OnEnable()
-    {
-        //SonsPoolAutomatic.Iniciar();
-    }
-
-    private void OnValidate()
-    {
-        musica2Volum = 1 - musica1Volum;
-        musica1.Volum(musica1Volum);
-        if (musica2) musica2.Volum(musica2Volum);
-        if (musica3) musica3.Volum(musica3Volum);
-        //musica1.Play(musica1Volum);
-        //musica2.Play(musica2Volum);
-        //musica1.Play(musica1Volum);
-        //musica2.Play(musica2Volum);
-    }
 
     [ContextMenu("Prova1")]
     public void Prova1()
@@ -52,23 +36,27 @@ public class SoProva : MonoBehaviour
         audioSource = null;
     }
 
-    [ContextMenu("Musica1")]
-    public void Musica1()
-    {
-        musica1.Play();
-    }
-    [ContextMenu("Musica2")]
-    public void Musica2()
-    {
-        //musica2.Play();
-    }
+    //FALTA
+
+
+
+
+
 
     private void Update()
     {
-        if (Key.Digit1.OnPress()) so1.Play(); 
-        if (Key.Digit2.OnPress()) so2.Play(); 
-        if (Key.Digit3.OnPress()) so3.Play();
+        if (Key.Digit1.OnPress()) musica.Play(musica1, volume1);
+        if (Key.Digit2.OnPress()) musica.Play(musica2, volume2);
 
+    }
+
+    private void OnValidate()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        //if (volume1 > 0) musica.Play(musica1, volume1);
+        //if (volume2 > 0) musica.Play(musica2, volume2);
     }
 
 }

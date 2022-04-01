@@ -39,7 +39,7 @@ public class Mixers : ScriptableObject
 
     private void OnEnable()
     {
-        Debug.Log("Mixers - OnEnable");
+        Debugar.Log("[Mixers] OnEnable() => Instance, Carregar(), Actualitzar() i guardat.onLoad += Carregar");
         Instance = this;
         Carregar();
         Actualitzar();
@@ -130,16 +130,16 @@ public class Mixers : ScriptableObject
 
     private void OnValidate()
     {
+        guardat = XS_Editor.LoadGuardat<Guardat>();
         if (Application.isPlaying)
         {
-            XS_Utils.Debugar.Log("Validate");
+            Debugar.Log("[Mixer] OnValidate()");
             Actualitzar();
         }
     }
 
     public void Actualitzar()
     {
-        Debugar.Log("Actualitzar Mixers");
         SetMaster(volumMaster);
         SetMusica(volumMusica);
         SetSo(volumSons);

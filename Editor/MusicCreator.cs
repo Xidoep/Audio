@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEditor;
 using XS_Utils;
 
-public class SoCreator
+public class MusicCreator
 {
-    [MenuItem("Assets/XidoSudio/Audio/So")]
-    static void CreateSoFromAudioClip()
+    [MenuItem("Assets/XidoSudio/Audio/Music")]
+    static void CreateMusicFromAudioClip()
     {
         //Checking that you don't select wired assets.
-        if(Selection.activeObject == null)
+        if (Selection.activeObject == null)
         {
-            Debugar.LogError("Select and AudioClip to create a sound");
+            Debugar.LogError("Select and AudioClip to create a music");
             return;
         }
         if (Selection.activeObject.GetType() != typeof(AudioClip))
@@ -27,15 +27,15 @@ public class SoCreator
         string[] folder = path.Split(name);
 
         //Create Scriptable and sets it.
-        So so = ScriptableObject.CreateInstance<So>();
-        so.clips = new AudioClip[] { (AudioClip)Selection.activeObject };
+        Music music = ScriptableObject.CreateInstance<Music>();
+        music.AudioClip = (AudioClip)Selection.activeObject;
 
         //Create an asset on the project and save it.
-        AssetDatabase.CreateAsset(so, $"{folder[0]}{name}.asset");
+        AssetDatabase.CreateAsset(music, $"{folder[0]}{name}.asset");
         AssetDatabase.SaveAssets();
 
         //Focus de asset created.
         EditorUtility.FocusProjectWindow();
-        Selection.activeObject = so;
+        Selection.activeObject = music;
     }
 }

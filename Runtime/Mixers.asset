@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Mixers
   m_EditorClassIdentifier: 
   guardat: {fileID: 11400000, guid: d8ba27ffe88b6fc4cb63b16236c5a60f, type: 2}
-  Inportant: S'ha d'Actualitzar, al inici perque aquest script afecti al Mixer.
   mixer: {fileID: 24100000, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   master: {fileID: 24300002, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   musica: {fileID: 243625923010047962, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   sons: {fileID: 243729972387478880, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
-  volumMaster: 1.073
-  volumMusica: 0.192
-  volumSons: 0.175
+  volumMaster: 1
+  volumMusica: 0.7318034
+  volumSons: 1.25
   reverberacio: 0
   eco: 0
   lowpassGeneral: 0

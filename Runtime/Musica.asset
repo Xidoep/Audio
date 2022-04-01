@@ -10,9 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 151940d01d99ba245bf6f014d1ad365b, type: 3}
-  m_Name: "Can\xE7oDivertida"
+  m_Name: Musica
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1060867050583898, guid: a3c5b2bdeb15db046bc9b7d160d20e0f, type: 3}
-  clip: {fileID: 8300000, guid: 41384cd2cbd88e04883855da63dae43a, type: 3}
-  volum: 0
-  volumMaxim: 0.196
+  musicaMixer: {fileID: 243625923010047962, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
+  main:
+    music: {fileID: 0}
+    volume: 0
+  additive:
+    music: {fileID: 0}
+    volume: 0
