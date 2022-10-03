@@ -41,6 +41,7 @@ public class SoControlador : MonoBehaviour
     }
 
     public void Play() => audioSource.Play();
+    public void Play(float delay) => audioSource.PlayDelayed(delay);
     public void Stop() => audioSource.Stop();
     public AudioClip Clip {set => audioSource.clip = value; }
     public float Volume {set => audioSource.volume = value; }
@@ -50,7 +51,7 @@ public class SoControlador : MonoBehaviour
     {
         if (audioSource.outputAudioMixerGroup == null) audioSource.outputAudioMixerGroup = Mixers.Instance.Sons;
     }
-    public bool SpatialBlend { set => audioSource.spatialBlend = Application.isPlaying ? (value ? 1 : 0) : 0; }
+    public float SpatialBlend { set => audioSource.spatialBlend = value; }
     public float MaxDistance { set => audioSource.maxDistance = value; }
 
 } 

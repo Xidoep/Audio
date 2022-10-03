@@ -123,14 +123,6 @@ public class SoInpector : Editor
         EditorGUILayout.Space(20);
 
 
-        spatialBlend = EditorGUILayout.Toggle("Spatial", so.spatialBlend);
-        if(so.spatialBlend != spatialBlend)
-        {
-            Undo.RecordObject(so, "Guardar SonsPool desde SonsPoolInspector");
-            so.spatialBlend = spatialBlend;
-        }
-        
-
         float _maxDist = EditorGUILayout.FloatField("Distancia maxima", so.distanciaMaxima);
         if (so.distanciaMaxima != _maxDist)
         {
@@ -150,7 +142,7 @@ public class SoInpector : Editor
             audioSource.loop = so.loop;
             audioSource.volume = Random.Range(so.volum.x, so.volum.y);
             audioSource.pitch = Random.Range(so.pitch.x, so.pitch.y);
-            audioSource.spatialBlend = so.spatialBlend ? 1 : 0;
+            audioSource.spatialBlend = 0;
             audioSource.maxDistance = so.distanciaMaxima;
             audioSource.Play();
             Debugar.Log($"Play ({audioSource.clip.name})");
