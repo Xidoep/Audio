@@ -6,7 +6,7 @@ using XS_Utils;
 
 public class MusicCreator
 {
-    [MenuItem("Assets/XidoSudio/Audio/Music")]
+    [MenuItem("Assets/XidoStudio/Audio/Music")]
     static void CreateMusicFromAudioClip()
     {
         //Checking that you don't select wired assets.

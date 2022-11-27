@@ -6,7 +6,7 @@ using XS_Utils;
 
 public class SoCreator
 {
-    [MenuItem("Assets/XidoSudio/Audio/So")]
+    [MenuItem("Assets/XidoStudio/Audio/So")]
     static void CreateSoFromAudioClip()
     {
         //Checking that you don't select wired assets.
