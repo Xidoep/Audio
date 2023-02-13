@@ -42,7 +42,7 @@ public class Mixers : ScriptableObject
         Debugar.Log("[Mixers] OnEnable() => Instance, Carregar(), Actualitzar() i guardat.onLoad += Carregar");
         Instance = this;
         Carregar();
-        Actualitzar();
+        //Actualitzar();
         guardat.onLoad += Carregar;
     }
 
@@ -53,9 +53,15 @@ public class Mixers : ScriptableObject
 
     public void Carregar()
     {
-        volumMaster = (float)guardat.Get(KEY_MASTER, 1f);
-        volumMusica = (float)guardat.Get(KEY_MUSICA, 1f);
-        volumSons = (float)guardat.Get(KEY_SO, 1f);
+        SetMaster((float)guardat.Get(KEY_MASTER, 1f));
+        SetMusica((float)guardat.Get(KEY_MUSICA, 1f));
+        SetSo((float)guardat.Get(KEY_SO, 1f));
+        SetReverberacio((float)guardat.Get(KEY_REVERB, 0));
+        SetEco((float)guardat.Get(KEY_ECO, 0));
+        SetLowPassGeneral((float)guardat.Get(KEY_LOWPASSGENERAL, 0));
+        SetLowPassMusica((float)guardat.Get(KEY_LOWPASSMUSICA, 0));
+
+        //Actualitzar();
     }
 
     //SETTERS
@@ -82,23 +88,27 @@ public class Mixers : ScriptableObject
     {
         reverberacio = _valor;
         SetFloat(master, KEY_REVERB, -10000 + (10000 * _valor));
+        guardat.SetLocal(KEY_REVERB, reverberacio);
     }
     public void SetEco(float _valor)
     {
         eco = _valor;
         SetFloat(sons, KEY_ECO, _valor / 20f);
+        guardat.SetLocal(KEY_ECO, eco);
     }
 
     public void SetLowPassGeneral(float _valor)
     {
         lowpassGeneral = _valor;
         SetFloat(master, KEY_LOWPASSGENERAL, 21990 - (21990 * _valor) + 10);
+        guardat.SetLocal(KEY_LOWPASSGENERAL, lowpassGeneral);
     }
 
     public void SetLowPassMusica(float _valor)
     {
         lowpassMusica = _valor;
         SetFloat(musica, KEY_LOWPASSMUSICA, 21990 - (21990 * _valor) + 10);
+        guardat.SetLocal(KEY_LOWPASSMUSICA, lowpassMusica);
     }
 
     void SetFloat(AudioMixerGroup _mixer, string _key, float _valor) => _mixer.audioMixer.SetFloat(_key, _valor);
@@ -131,10 +141,11 @@ public class Mixers : ScriptableObject
     private void OnValidate()
     {
         guardat = XS_Editor.LoadGuardat<Guardat>();
+        Debugar.Log("[Mixer] OnValidate()");
+        Actualitzar();
         if (Application.isPlaying)
         {
-            Debugar.Log("[Mixer] OnValidate()");
-            Actualitzar();
+            
         }
     }
 
