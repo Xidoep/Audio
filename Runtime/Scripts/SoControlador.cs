@@ -10,7 +10,7 @@ public class SoControlador : MonoBehaviour
     System.Action<SoControlador> enRelease;
     public SoControlador Crear(AudioSource audioSource)
     {
-        Debugar.Log("Crear");
+        //Debugar.Log("Crear");
         this.audioSource = audioSource;
         compteEnrere = new XS_Countdown(3, Release);
         return this;
