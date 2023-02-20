@@ -25,10 +25,12 @@ public class So : ScriptableObject
 
     public SoControlador Play() => Play(Set(Get, Vector3.zero, null));
     public SoControlador Play(float delay) => Play(Set(Get, Vector3.zero, null), delay);
+    public SoControlador Play(float volume, float pitch) => Play(SetAll(Get, volume, pitch, Vector3.zero, null));
     public SoControlador Play(Transform transform) => Play(Set(Get, transform.position, transform));
     public SoControlador Play(Transform transform, float delay) => Play(Set(Get, transform.position, transform), delay);
     public SoControlador Play(Vector3 position) => Play(Set(Get, position, null));
     public SoControlador Play(Vector3 position, float volume) => Play(SetWithVolume(Get, volume, position, null));
+    public SoControlador Play(Vector3 position, float volume, float pitch) => Play(SetAll(Get, volume, pitch, position, null));
     public SoControlador Play(Vector3 position, Transform parent) => Play(Set(Get, position, parent));
 
     SoControlador Get => anteriorControlador = SonsPoolAutomatic.Get(loop);

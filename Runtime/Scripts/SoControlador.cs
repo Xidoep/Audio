@@ -8,6 +8,9 @@ public class SoControlador : MonoBehaviour
     XS_Countdown compteEnrere;
 
     System.Action<SoControlador> enRelease;
+
+    public bool IsPlaying => audioSource.isPlaying;
+
     public SoControlador Crear(AudioSource audioSource)
     {
         //Debugar.Log("Crear");
@@ -53,5 +56,6 @@ public class SoControlador : MonoBehaviour
     }
     public float SpatialBlend { set => audioSource.spatialBlend = value; }
     public float MaxDistance { set => audioSource.maxDistance = value; }
+
 
 } 
