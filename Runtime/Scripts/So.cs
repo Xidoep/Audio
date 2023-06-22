@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XS_Utils;
+using Sirenix.OdinInspector;
 
 [System.Serializable]
 [CreateAssetMenu(menuName = "Xido Studio/Audio/So", fileName = "So")]
@@ -11,13 +12,13 @@ public class So : ScriptableObject
     [HideInInspector] public GameObject prefab;
     [HideInInspector] public GameObject pool;
 
-    [HideInInspector] public Vector2 volum = new Vector2(1,1);
-    [HideInInspector] public Vector2 pitch = new Vector2(1,1);
+    [SerializeField, MinMaxSlider(0, 1, true), LabelWidth(50)] public Vector2 volum = new Vector2(1,1);
+    [SerializeField, MinMaxSlider(0, 2, true), LabelWidth(50)] public Vector2 pitch = new Vector2(1,1);
 
-    [HideInInspector] public bool loop;
-    [HideInInspector] public float distanciaMaxima = 500;
+    [SerializeField, HorizontalGroup("opcions"), LabelWidth(50)] public bool loop;
+    [SerializeField, HorizontalGroup("opcions"), LabelWidth(100)] public float distanciaMaxima = 500;
 
-    public AudioClip[] clips = new AudioClip[] { };
+    [SerializeField, PropertyOrder(-1)] public AudioClip[] clips = new AudioClip[] { };
 
     SoControlador anteriorControlador;
 
@@ -96,4 +97,40 @@ public class So : ScriptableObject
         anteriorControlador.gameObject.SetActive(false);
     }
 
+
+    AudioSource audioSource;
+
+    [Button("PLAY"), HorizontalGroup("Proves")] void PlayProva()
+    {
+        if (audioSource == null) audioSource = new GameObject("_preview").AddComponent<AudioSource>();
+        int side = Random.Range(0, 2);
+        audioSource.transform.position = Camera.main.transform.position + (side == 1 ? Vector3.right : -Vector3.right) * 0;
+        audioSource.clip = clips[Random.Range(0, clips.Length)];
+        audioSource.loop = loop;
+        audioSource.volume = Random.Range(volum.x, volum.y);
+        audioSource.pitch = Random.Range(pitch.x, pitch.y);
+        audioSource.spatialBlend = 0;
+        audioSource.maxDistance = distanciaMaxima;
+        audioSource.Play();
+        Debugar.Log($"Play ({audioSource.clip.name})");
+    }
+
+    [Button("STOP"), HorizontalGroup("Proves")] void StopProva()
+    {
+        if (audioSource == null)
+            return;
+
+        if (!audioSource.isPlaying)
+            return;
+
+        audioSource.Stop();
+    }
+
+    void OnDisable()
+    {
+        if (audioSource == null)
+            return;
+
+        DestroyImmediate(audioSource.gameObject);
+    }
 }

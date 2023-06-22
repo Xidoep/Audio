@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Pool;
 using XS_Utils;
 
-
 public static class SonsPoolAutomatic
 {
     static bool iniciat = false;

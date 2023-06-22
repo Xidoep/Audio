@@ -5,9 +5,10 @@ using UnityEditor;
 using XS_Utils;
 //using Unity.EditorCoroutines.Editor; //Agafa aixo del Package [Editor Coroutines]
 
-[CustomEditor(typeof(So))]
+//[CustomEditor(typeof(So))]
 public class SoInpector : Editor
 {
+    /*
     public GUIStyle label70;
     public GUIStyle field;
 
@@ -37,43 +38,6 @@ public class SoInpector : Editor
         if (label70 == null) label70 = new GUIStyle(GUI.skin.label) { fixedWidth = 40, alignment = TextAnchor.MiddleLeft };
         if (field == null) field = new GUIStyle(GUI.skin.textField) { fixedWidth = 40};
 
-        /*
-        for (int i = 0; i < so.clips.Length; i++)
-        {
-            EditorGUILayout.BeginHorizontal();
-
-            AudioClip _clip = (AudioClip)EditorGUILayout.ObjectField(so.clips[i], typeof(AudioClip), false);
-
-            if (so.clips[i] != _clip)
-            {
-                Undo.RecordObject(so, "Guardar Sons desde SonsPoolInspector");
-                so.clips[i] = _clip;
-            }
-            if (GUILayout.Button("X"))
-            {
-                Undo.RecordObject(so, "Guardar SonsPool desde SonsPoolInspector");
-                List<AudioClip> _tmp = new List<AudioClip>(so.clips);
-                _tmp.RemoveAt(i);
-                so.clips = _tmp.ToArray();
-                return;
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-
-        EditorGUILayout.BeginHorizontal();
-        GUILayout.Box("+", label70);
-        _nouClip = (AudioClip)EditorGUILayout.ObjectField(_nouClip, typeof(AudioClip), false);
-        if(_nouClip != null)
-        {
-            List<AudioClip> _tmp = new List<AudioClip>(so.clips);
-            _tmp.Add(_nouClip);
-            so.clips = _tmp.ToArray();
-            _nouClip = null;
-        }
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        */
 
         _loop = EditorGUILayout.Toggle("Loop", so.loop);
         if(so.loop != _loop)
@@ -157,7 +121,7 @@ public class SoInpector : Editor
 
             audioSource.Stop();
         }
-
+    
     }
 
     void OnDisable()
@@ -173,4 +137,5 @@ public class SoInpector : Editor
         yield return new WaitForSecondsRealtime(so.loop ? 3 : _tmp.clip.length);
         DestroyImmediate(_tmp.gameObject);
     }
+    */
 }

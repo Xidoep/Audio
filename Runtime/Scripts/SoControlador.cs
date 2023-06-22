@@ -15,6 +15,7 @@ public class SoControlador : MonoBehaviour
     {
         //Debugar.Log("Crear");
         this.audioSource = audioSource;
+        this.audioSource.playOnAwake = false;
         compteEnrere = new XS_Countdown(3, Release);
         return this;
     }
@@ -44,7 +45,13 @@ public class SoControlador : MonoBehaviour
     }
 
     public void Play() => audioSource.Play();
-    public void Play(float delay) => audioSource.PlayDelayed(delay);
+    public void Play(float delay)
+    {
+        Debug.Log($"Delay = {delay} | play on awake = {audioSource.playOnAwake}");
+        audioSource.PlayDelayed(delay);
+        //audioSource.PlayScheduled(delay);
+        //XS_Coroutine.StartCoroutine_Ending_FrameDependant(delay, () => audioSource.Play());
+    }
     public void Stop() => audioSource.Stop();
     public AudioClip Clip {set => audioSource.clip = value; }
     public float Volume {set => audioSource.volume = value; }
