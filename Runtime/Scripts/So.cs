@@ -24,15 +24,22 @@ public class So : ScriptableObject
 
 
 
-    public SoControlador Play() => Play(Set(Get, Vector3.zero, null));
-    public SoControlador Play(float delay) => Play(Set(Get, Vector3.zero, null), delay);
-    public SoControlador Play(float volume, float pitch) => Play(SetAll(Get, volume, pitch, Vector3.zero, null));
+    public SoControlador Play() => Play(Set(Get, Vector3.zero));
+    public SoControlador Play(float volume, float pitch) => Play(SetAll(Get, volume, pitch, Vector3.zero));
     public SoControlador Play(Transform transform) => Play(Set(Get, transform.position, transform));
-    public SoControlador Play(Transform transform, float delay) => Play(Set(Get, transform.position, transform), delay);
-    public SoControlador Play(Vector3 position) => Play(Set(Get, position, null));
-    public SoControlador Play(Vector3 position, float volume) => Play(SetWithVolume(Get, volume, position, null));
-    public SoControlador Play(Vector3 position, float volume, float pitch) => Play(SetAll(Get, volume, pitch, position, null));
+    public SoControlador Play(Vector3 position) => Play(Set(Get, position));
+    public SoControlador Play(Vector3 position, float volume) => Play(SetWithVolume(Get, volume, position));
+    public SoControlador Play(Vector3 position, float volume, float pitch) => Play(SetAll(Get, volume, pitch, position));
     public SoControlador Play(Vector3 position, Transform parent) => Play(Set(Get, position, parent));
+
+    public SoControlador PlayDelayed(float delay) => Play(Set(Get, Vector3.zero), delay);
+    public SoControlador PlayDelayed(float volume, float pitch, float delay) => Play(SetAll(Get, volume, pitch, Vector3.zero), delay);
+    public SoControlador PlayDelayed(Transform transform, float delay) => Play(Set(Get, transform.position, transform), delay);
+    public SoControlador PlayDelayed(Vector3 position, float volume, float delay) => Play(SetWithVolume(Get, volume, position), delay);
+    public SoControlador PlayDelayed(Vector3 position, float volume, float pitch, float delay) => Play(SetAll(Get, volume, pitch, position), delay);
+    public SoControlador PlayDelayed(Vector3 position, Transform parent, float delay) => Play(Set(Get, position, parent), delay);
+
+
 
     SoControlador Get => anteriorControlador = SonsPoolAutomatic.Get(loop);
     void SetBasics(SoControlador so, Vector3 position, Transform parent)
@@ -49,24 +56,24 @@ public class So : ScriptableObject
 
         so.AudioMixed();
     }
-    SoControlador Set(SoControlador so, Vector3 position, Transform parent)
+    SoControlador Set(SoControlador so, Vector3 position, Transform parent = null)
     {
         SetBasics(so, position, parent);
         return so;
     }
-    SoControlador SetWithVolume(SoControlador so, float volume, Vector3 position, Transform parent)
+    SoControlador SetWithVolume(SoControlador so, float volume, Vector3 position, Transform parent = null)
     {
         SetBasics(so, position, parent);
         so.Volume = volume;
         return so;
     }
-    SoControlador SetWithPitch(SoControlador so, float pitch, Vector3 position, Transform parent)
+    SoControlador SetWithPitch(SoControlador so, float pitch, Vector3 position, Transform parent = null)
     {
         SetBasics(so, position, parent);
         so.Pitch = pitch;
         return so;
     }
-    SoControlador SetAll(SoControlador so, float volume, float pitch, Vector3 position, Transform parent)
+    SoControlador SetAll(SoControlador so, float volume, float pitch, Vector3 position, Transform parent = null)
     {
         SetBasics(so, position, parent);
         so.Volume = volume;
@@ -100,7 +107,8 @@ public class So : ScriptableObject
 
     AudioSource audioSource;
 
-    [Button("PLAY"), HorizontalGroup("Proves")] void PlayProva()
+    [Button("PLAY"), HorizontalGroup("Proves")] 
+    void PlayProva()
     {
         if (audioSource == null) audioSource = new GameObject("_preview").AddComponent<AudioSource>();
         int side = Random.Range(0, 2);

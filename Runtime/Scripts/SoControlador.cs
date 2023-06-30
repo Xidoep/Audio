@@ -16,7 +16,7 @@ public class SoControlador : MonoBehaviour
         //Debugar.Log("Crear");
         this.audioSource = audioSource;
         this.audioSource.playOnAwake = false;
-        compteEnrere = new XS_Countdown(3, Release);
+        compteEnrere = new XS_Countdown(3, Release, true);
         return this;
     }
     void Release() => enRelease.Invoke(this);
