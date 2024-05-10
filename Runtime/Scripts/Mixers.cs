@@ -55,7 +55,7 @@ public class Mixers : ScriptableObject
     }
     public void SetSo(float _volum)
     {
-        volumMaster.Valor = _volum;
+        volumSo.Valor = _volum;
         SetSo();
     }
     public void SetReverberacio(float _valor)
@@ -83,7 +83,7 @@ public class Mixers : ScriptableObject
 
 
     void SetMaster() => SetFloat(master, KEY_MASTER, ToVolum(volumMaster.Valor));
-    void SetMusica() => SetFloat(master, KEY_MUSICA, ToVolum(volumMaster.Valor));
+    void SetMusica() => SetFloat(musica, KEY_MUSICA, ToVolum(volumMusica.Valor));
     void SetSo() => SetFloat(sons, KEY_SO, ToVolum(volumSo.Valor));
     void SetReverberacio() => SetFloat(master, KEY_REVERB, ToReverberacio(reverberacio));
     void SetEco() => SetFloat(sons, KEY_ECO, ToEco(eco));

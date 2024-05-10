@@ -15,7 +15,7 @@ MonoBehaviour:
   musicaMixer: {fileID: 243625923010047962, guid: cf9f022cbd8fe824fadc8f9230dc1c8d, type: 2}
   main:
     music: {fileID: 11400000, guid: 39c07cef1de2bb44ba58b08f3b610f4a, type: 2}
-    volume: 1
+    volume: 0.626
   additive:
     music: {fileID: 0}
     volume: 0

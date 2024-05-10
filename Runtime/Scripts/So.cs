@@ -23,7 +23,6 @@ public class So : ScriptableObject
     SoControlador anteriorControlador;
 
 
-
     public SoControlador Play() => Play(Set(Get, Vector3.zero));
     public SoControlador Play(float volume, float pitch) => Play(SetAll(Get, volume, pitch, Vector3.zero));
     public SoControlador Play(Transform transform) => Play(Set(Get, transform.position, transform));
@@ -38,6 +37,7 @@ public class So : ScriptableObject
     public SoControlador PlayDelayed(Vector3 position, float volume, float delay) => Play(SetWithVolume(Get, volume, position), delay);
     public SoControlador PlayDelayed(Vector3 position, float volume, float pitch, float delay) => Play(SetAll(Get, volume, pitch, position), delay);
     public SoControlador PlayDelayed(Vector3 position, Transform parent, float delay) => Play(Set(Get, position, parent), delay);
+    public void PlayNoReturn() => Play(Set(Get, Vector3.zero));
 
 
 
